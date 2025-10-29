@@ -49,3 +49,5 @@ venv/
 # Переменные окружения
 .env
 .env.local
+
+.claude
