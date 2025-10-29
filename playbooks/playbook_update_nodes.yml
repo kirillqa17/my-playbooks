@@ -1,0 +1,24 @@
+---
+- name: Update nodes
+  hosts: vpn_nodes
+  become: yes
+
+  tasks:
+    - name: Update and restart Remnanode
+      shell: "cd /opt/remnanode && docker compose pull && docker compose down && docker compose up -d"
+
+    - name: Wait for logs to be generated (10 seconds)
+      pause:
+        seconds: 10
+
+    - name: Save logs
+      shell: "docker compose logs > update.log"
+      args:
+        chdir: /opt/remnanode
+
+    - name: Fetch update logs to local machine
+      fetch:
+        src: /opt/remnanode/update.log 
+        dest: logs/vpn_nodes/{{ inventory_hostname }}_update.log 
+        flat: yes
+

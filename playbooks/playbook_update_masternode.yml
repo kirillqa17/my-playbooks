@@ -1,0 +1,57 @@
+- name: Update masternode
+  hosts: masternode
+  become: yes
+
+  tasks:
+
+    - name: Update subscription page
+      shell: "docker compose pull && docker compose down && docker compose up -d"
+      args:
+        chdir: "/opt/remnawave/subscription"
+    
+    - name: Update remnawave
+      shell: "docker compose pull && docker compose down && docker compose up -d"
+      args:
+        chdir: "/opt/remnawave"
+
+    - name: Wait for logs to be generated
+      pause:
+        seconds: 60
+
+    - name: Update nginx
+      shell: "docker compose pull && docker compose down && docker compose up -d"
+      args:
+        chdir: "/opt/remnawave/nginx"
+
+    - name: Save subscription logs
+      shell: "docker compose logs > subscription.log"
+      args:
+        chdir: "/opt/remnawave/subscription"
+
+    - name: Save nginx logs
+      shell: "docker compose logs > nginx.log"
+      args:
+        chdir: "/opt/remnawave/nginx"
+    
+    - name: Save remnawave logs
+      shell: "docker compose logs > remnawave_main.log"
+      args:
+        chdir: "/opt/remnawave"
+
+    - name: Fetch subscription logs
+      fetch:
+        src: "/opt/remnawave/subscription/subscription.log" 
+        dest: "logs/masternode/{{ inventory_hostname }}_subscription.log" 
+        flat: yes
+
+    - name: Fetch nginx logs
+      fetch:
+        src: "/opt/remnawave/nginx/nginx.log" 
+        dest: "logs/masternode/{{ inventory_hostname }}_nginx.log" 
+        flat: yes
+
+    - name: Fetch remnawave main logs
+      fetch:
+        src: "/opt/remnawave/remnawave_main.log" 
+        dest: "logs/masternode/{{ inventory_hostname }}_remnawave_main.log" 
+        flat: yes

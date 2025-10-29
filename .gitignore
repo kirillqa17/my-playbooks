@@ -1,0 +1,51 @@
+# Чувствительные данные и конфигурации
+hosts.txt
+*.pem
+*.key
+*.pub
+credentials.yml
+secrets.yml
+vault.yml
+*.vault
+
+# Ansible
+*.retry
+.ansible/
+*.log
+
+# Логи и временные файлы
+logs/
+*.log
+vpn_tests.txt
+
+# SSH ключи
+id_rsa*
+id_ed25519*
+*.ppk
+
+# IDE и редакторы
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.pytest_cache/
+
+# Backup файлы
+*.bak
+*.backup
+*~
+
+# Переменные окружения
+.env
+.env.local

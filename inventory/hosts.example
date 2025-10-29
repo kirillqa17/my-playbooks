@@ -1,0 +1,17 @@
+# Пример inventory файла для Ansible
+# Скопируйте этот файл в hosts.txt и замените значения на ваши
+
+[vpn_nodes]
+nl_server_1 ansible_host=YOUR_IP_ADDRESS_1
+de_server_1 ansible_host=YOUR_IP_ADDRESS_2
+ru_server ansible_host=YOUR_IP_ADDRESS_3
+usa_server ansible_host=YOUR_IP_ADDRESS_4
+nl_server_4 ansible_host=YOUR_IP_ADDRESS_5
+de_server_2 ansible_host=YOUR_IP_ADDRESS_6
+
+[masternode]
+nl ansible_host=YOUR_MASTER_IP ansible_user=root ansible_ssh_private_key_file=/path/to/your/private/key
+
+[vpn_nodes:vars]
+ansible_user=root
+ansible_ssh_private_key_file=/path/to/your/private/key
